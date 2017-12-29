@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDepartmentsTable extends Migration {
+class CreateSubindicesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,12 +12,16 @@ class CreateDepartmentsTable extends Migration {
 	 * @return void
 	 */
 	public function up() {
-		Schema::create('departments', function (Blueprint $table) {
+		Schema::create('subindices', function (Blueprint $table) {
 			$table->increments('id');
 			$table->string('name')->unique();
-			$table->string('path')->nullable();
-			$table->boolean('is_college')->default(false);
+			$table->string('seq');
+			$table->integer('order')->default(0);
+			$table->decimal('score', 5, 2);
+			$table->integer('index_id');
 			$table->timestamps();
+
+			$table->foreign('index_id')->references('id')->on('indices');
 		});
 	}
 
@@ -27,6 +31,6 @@ class CreateDepartmentsTable extends Migration {
 	 * @return void
 	 */
 	public function down() {
-		Schema::dropIfExists('departments');
+		Schema::dropIfExists('subindices');
 	}
 }
