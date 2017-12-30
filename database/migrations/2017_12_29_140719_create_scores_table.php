@@ -14,8 +14,8 @@ class CreateScoresTable extends Migration {
 	public function up() {
 		Schema::create('scores', function (Blueprint $table) {
 			$table->increments('id');
-			$table->integer('department_id');
-			$table->integer('marker_id');
+			$table->integer('department_id')->unsigned();
+			$table->string('marker_id');
 			$table->decimal('score', 5, 2);
 			$table->string('year');
 			$table->timestamps();

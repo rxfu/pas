@@ -18,7 +18,8 @@ class CreateSubindicesTable extends Migration {
 			$table->string('seq');
 			$table->integer('order')->default(0);
 			$table->decimal('score', 5, 2);
-			$table->integer('index_id');
+			$table->text('description')->nullable();
+			$table->integer('index_id')->unsigned();
 			$table->timestamps();
 
 			$table->foreign('index_id')->references('id')->on('indices');
