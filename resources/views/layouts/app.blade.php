@@ -10,7 +10,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>@yield('title', '首页') | {{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
@@ -27,8 +27,15 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
+            @auth
+                @include('partials.sidebar')
+            @endauth
+
             <ul class="navbar-nav ml-auto">
                 @guest
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">评分</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('login') }}">管理</a>
                     </li>
@@ -38,7 +45,7 @@
                             <i class="fa fa-fw fa-sign-out"></i>退出系统
                         </a>
 
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        <form id="logout-form" action="{{ route('logout') }}" method="post" style="display: none;">
                             {{ csrf_field() }}
                         </form>
                     </li>
@@ -46,7 +53,43 @@
             </ul>
         </nav>
 
-        @yield('content')
+        @guest
+            @yield('content')
+        @else
+            <div class="content-wrapper">
+                <div class="container-fluid">
+
+                    @foreach (['success', 'danger', 'warning', 'info'] as $status)
+                        @if (session()->has($status))
+                            <div class="alert alert-{{ $status }} alert-dismissible fade show" role="alert">
+                                {{ session($status) }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        @endif
+                    @endforeach
+
+                    <h3>@yield('title', '首页')</h3>
+                    <hr>
+
+                    @yield('content')
+                </div>
+            </div>
+
+            <footer class="sticky-footer">
+                <div class="container">
+                    <div class="text-center">
+                        <small>© 广西师范大学人事处 2017</small>
+                    </div>
+                </div>
+            </footer>
+
+            <!-- Scroll to Top Button-->
+            <a class="scroll-to-top rounded" href="#page-top">
+                <i class="fa fa-angle-up"></i>
+            </a>
+        @endguest
     </div>
 
     <!-- Scripts -->

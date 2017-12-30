@@ -15,7 +15,7 @@ class CreateMarkersTable extends Migration {
 		Schema::create('markers', function (Blueprint $table) {
 			$table->string('id');
 			$table->integer('department_id')->unsigned();
-			$table->timestamp('login_at');
+			$table->timestamp('last_login_at');
 			$table->timestamps();
 
 			$table->primary('id');
