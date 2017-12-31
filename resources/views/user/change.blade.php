@@ -8,19 +8,19 @@
 	{{ csrf_field() }}
 
 	<div class="form-group row">
-		<label for="old_password" class="control-label col-md-3 col-sm-3 col-xs-12 col-form-label text-right">旧密码 <span class="required">*</span></label>
+		<label for="old_password" class="col-md-3 col-sm-3 col-xs-12 col-form-label text-right">旧密码 <span class="required">*</span></label>
 		<div class="col-md-6 col-sm-6 col-xs-12">
 			<input type="password" class="form-control col-md-7 col-xs-12" id="old_password" name="old_password" placeholder="旧密码" required>
 		</div>
 	</div>
 	<div class="form-group row">
-		<label for="password" class="control-label col-md-3 col-sm-3 col-xs-12 col-form-label text-right">密码 <span class="required">*</span></label>
+		<label for="password" class="col-md-3 col-sm-3 col-xs-12 col-form-label text-right">密码 <span class="required">*</span></label>
 		<div class="col-md-6 col-sm-6 col-xs-12">
 			<input type="password" class="form-control col-md-7 col-xs-12" id="password" name="password" placeholder="密码" required>
 		</div>
 	</div>
 	<div class="form-group row">
-		<label for="password_confirmation" class="control-label col-md-3 col-sm-3 col-xs-12 col-form-label text-right">确认密码 <span class="required">*</span></label>
+		<label for="password_confirmation" class="col-md-3 col-sm-3 col-xs-12 col-form-label text-right">确认密码 <span class="required">*</span></label>
 		<div class="col-md-6 col-sm-6 col-xs-12">
 			<input type="password" class="form-control col-md-7 col-xs-12" id="password_confirmation" name="password_confirmation" placeholder="确认密码" required>
 		</div>

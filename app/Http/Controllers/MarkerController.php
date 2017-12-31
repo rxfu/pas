@@ -14,9 +14,18 @@ class MarkerController extends Controller {
 	}
 
 	public function getCreate() {
+		return view('user.create');
 	}
 
 	public function postSave(Request $request) {
+		if ($request->isMethod('post')) {
+			$this->validate($request, [
+				'number' => 'required|numeric',
+			]);
+
+			$inputs = $request->all();
+			$number = $inputs['number'];
+		}
 	}
 
 	public function deleteDelete(Request $request, $id) {
