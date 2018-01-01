@@ -25,6 +25,7 @@
 							<td>{{ $marker->id }}</td>
 							<td>{{ $marker->department->name }}</td>
 							<td>{{ $marker->last_login_at }}</td>
+							<td>{{ $marker->created_at }}</td>
 							<td>
 								<p data-placement="top" data-toggle="tooltip" title="删除">
 									<a href="#" class="btn btn-danger btn-xs" role="button" onclick="confirm('你确定要删除这条记录？') ? document.getElementById('delete-{{ $marker->id }}-form').submit() : false">
@@ -44,6 +45,11 @@
 					<tr>
 						<td colspan="5">
 							<a href="{{ route('user.create') }}" class="btn btn-success"><i class="fa fa-plus"></i> 新增</a>
+							<a href="#" class="btn btn-danger" role="button" onclick="confirm('你确定要删除这条记录？') ? document.getElementById('destroy-form').submit() : false"><i class="fa fa-minus"></i> 清空</a>
+							<form id="destroy-form" method="post" action="{{ route('user.destroy') }}" style="display: none">
+								{{ method_field('delete') }}
+								{{ csrf_field() }}
+							</form>
 						</td>
 					</tr>
 				</tfoot>

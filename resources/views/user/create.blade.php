@@ -14,7 +14,7 @@
 	</div>
 	<div class="form-group row">
 		<div class="col-md-6 col-sm-6 col-xs-12 offset-md-3">
-			<button type="submit" class="btn btn-success">保存</button>
+			<button type="submit" class="btn btn-success">生成</button>
 		</div>
 	</div>
 </form>

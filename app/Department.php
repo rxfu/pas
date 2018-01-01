@@ -24,4 +24,7 @@ class Department extends Model {
 		'is_college' => 'boolean',
 	];
 
+	public function markers() {
+		return $this->hasMany('App\Marker', 'department_id', 'id');
+	}
 }

@@ -22,8 +22,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::prefix('user')->group(function () {
 	Route::name('user.list')->get('list', 'MarkerController@getList');
 	Route::name('user.create')->get('create', 'MarkerController@getCreate');
-	Route::name('user.save')->post('save', 'UserController@postSave');
+	Route::name('user.save')->post('save', 'MarkerController@postSave');
 	Route::name('user.delete')->delete('{id}/delete', 'MarkerController@deleteDelete');
+	Route::name('user.destroy')->delete('destroy', 'MarkerController@deleteDestroy');
 	Route::name('user.chgpwd')->get('change-password', 'UserController@getChangePassword');
 	Route::name('user.change')->put('change', 'UserController@putChangePassword');
 });
