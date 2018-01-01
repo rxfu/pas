@@ -20,11 +20,11 @@ class MarkerController extends Controller {
 	public function postSave(Request $request) {
 		if ($request->isMethod('post')) {
 			$this->validate($request, [
-				'number' => 'required|numeric',
-			]);
+				'count' => 'required|numeric',
+			]);̥
 
 			$inputs = $request->all();
-			$number = $inputs['number'];
+			$count  = $inputs['count'];
 		}
 	}
 
