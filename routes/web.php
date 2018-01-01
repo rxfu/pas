@@ -55,3 +55,13 @@ Route::prefix('subindex')->group(function () {
 	Route::name('subindex.update')->put('{id}/update', 'SubindexController@putUpdate');
 	Route::name('subindex.delete')->delete('{id}/delete', 'SubindexController@deleteDelete');
 });
+
+Route::prefix('marker')->group(function () {
+	Route::get('login', 'MarkerController@getLogin');
+	Route::name('marker.login')->post('login', 'MarkerController@postLogin');
+	Route::name('marker.logout')->post('logout', 'MarkerController@postlogout');
+});
+
+Route::prefix('score')->group(function () {
+	Route::name('score.mark')->get('mark', 'ScoreController@getMark');
+});

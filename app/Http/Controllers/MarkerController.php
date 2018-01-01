@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Department;
 use App\Marker;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class MarkerController extends Controller {
@@ -76,5 +77,39 @@ class MarkerController extends Controller {
 		}
 
 		return back()->withErrors();
+	}
+
+	public function getLogin() {
+		$departments = Department::orderBy('id')->get();
+
+		return view('marker.login', compact('departments'));
+	}
+
+	public function postLogin(Request $request) {
+		$this->validate($request, [
+			'id' => 'required|numeric',
+		]);
+
+		if ($request->isMethod('post')) {
+			$inputs = $request->all();
+
+			$exists = Marker::whereId($inputs['id'])->whereDepartmentId($inputs['department_id'])->exists();
+
+			if ($exists) {
+				$request->session()->flash('success', '登录评分系统成功');
+				$request->session()->put('marker', $inputs['id']);
+				$request->session()->put('department', $inputs['department_id']);
+
+				$marker                = Marker::find($inputs['id']);
+				$marker->last_login_at = Carbon::now();
+				$marker->save();
+
+				return redirect()->route('score.mark');
+			} else {
+				$request->session()->flash('danger', '验证码与部门不一致，登录评分系统失败');
+
+				return back();
+			}
+		}
 	}
 }
