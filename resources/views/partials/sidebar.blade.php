@@ -13,10 +13,10 @@
             </a>
             <ul class="sidenav-second-level collapse" id="score">
                 <li>
-                  <a href="#">评分排行</a>
+                  <a href="{{ route('score.statistics') }}">评分排行</a>
                 </li>
                 <li>
-                  <a href="#">评分细目</a>
+                  <a href="{{ route('score.list') }}">评分细目</a>
                 </li>
             </ul>
         </li>
