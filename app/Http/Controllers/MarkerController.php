@@ -99,6 +99,7 @@ class MarkerController extends Controller {
 				$request->session()->flash('success', '登录评分系统成功');
 				$request->session()->put('marker', $inputs['id']);
 				$request->session()->put('department', $inputs['department_id']);
+				$request->session()->put('signed', 'true');
 
 				$marker                = Marker::find($inputs['id']);
 				$marker->last_login_at = Carbon::now();
@@ -110,6 +111,14 @@ class MarkerController extends Controller {
 
 				return back();
 			}
+		}
+	}
+
+	public function postLogout(Request $request) {
+		if ($request->session()->has('signed') && $request->session()->get('signed')) {
+			$request->session()->flush();
+
+			return redirect()->route('marker.login');
 		}
 	}
 }
