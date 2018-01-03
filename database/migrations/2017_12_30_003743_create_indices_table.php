@@ -19,7 +19,7 @@ class CreateIndicesTable extends Migration {
 			$table->integer('order')->default(0);
 			$table->decimal('score', 5, 2);
 			$table->text('description')->nullable();
-			$table->string('departments');
+			$table->string('departments')->nullable();
 			$table->timestamps();
 		});
 	}

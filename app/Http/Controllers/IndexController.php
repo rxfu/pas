@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Department;
 use App\Index;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,9 @@ class IndexController extends Controller {
 	}
 
 	public function getCreate() {
-		return view('index.create');
+		$departments = Department::orderBy('is_college')->get();
+
+		return view('index.create', compact('departments'));
 	}
 
 	public function postSave(Request $request) {
@@ -28,6 +31,10 @@ class IndexController extends Controller {
 		$inputs = $request->all();
 
 		if ($request->isMethod('post')) {
+			if (isset($inputs['departments'])) {
+				$inputs['departments'] = implode(',', $inputs['departments']);
+			}
+
 			$index = new Index();
 			$index->fill($inputs);
 
@@ -44,9 +51,11 @@ class IndexController extends Controller {
 	}
 
 	public function getEdit($id) {
-		$index = Index::find($id);
+		$index       = Index::find($id);
+		$departments = Department::orderBy('is_college')->get();
+		$managers    = explode(',', $index->departments);
 
-		return view('index.edit', compact('index'));
+		return view('index.edit', compact('index', 'departments', 'managers'));
 	}
 
 	public function putUpdate(Request $request, $id) {
@@ -60,6 +69,10 @@ class IndexController extends Controller {
 		$inputs = $request->all();
 
 		if ($request->isMethod('put')) {
+			if (isset($inputs['departments'])) {
+				$inputs['departments'] = implode(',', $inputs['departments']);
+			}
+
 			$index = Index::find($id);
 			$index->fill($inputs);
 

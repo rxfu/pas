@@ -38,6 +38,17 @@
 		</div>
 	</div>
 	<div class="form-group row">
+		<label for="departments[]" class="col-md-3 col-sm-3 col-xs-12 col-form-label text-right">主责部门</label>
+		<div class="col-md-6 col-sm-6 col-xs-12">
+			@foreach ($departments as $department)
+				<div class="form-check form-check-inline">
+					<input type="checkbox" class="form-check-input" id="department-{{ $department->id }}" name="departments[]" value="{{ $department->id }}"{{ in_array($department->id, $managers) ? ' checked' : '' }}>
+					<label for="department-{{ $department->id }}" class="form-check-label">{{ $department->name }}</label>
+				</div>
+			@endforeach
+		</div>
+	</div>
+	<div class="form-group row">
 		<div class="col-md-6 col-sm-6 col-xs-12 offset-md-3">
 			<button type="submit" class="btn btn-success">保存</button>
 		</div>

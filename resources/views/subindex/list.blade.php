@@ -34,7 +34,7 @@
 							<td>{{ $subindex->order }}</td>
 							<td>{{ $subindex->description }}</td>
 							<td>{{ $subindex->index->name }}</td>
-							<td>{{ $index->departments }}</td>
+							<td>{{ $subindex->departments }}</td>
 							<td>
 								<p data-placement="top" data-toggle="tooltip" title="编辑">
 									<a href="{{ route('subindex.edit', $subindex->id) }}" class="btn btn-primary btn-xs" role="button">

@@ -25,7 +25,7 @@
 						<tr>
 							<td>{{ $marker->id }}</td>
 							<td>{{ $marker->department->name }}</td>
-							<td>{{ $marker->is_manager }}</td>
+							<td>{{ $marker->is_manager ? '是' : '否' }}</td>
 							<td>{{ $marker->last_login_at }}</td>
 							<td>{{ $marker->created_at }}</td>
 							<td>

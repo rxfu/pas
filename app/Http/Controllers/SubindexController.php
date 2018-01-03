@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Department;
 use App\Index;
 use App\Subindex;
 use Illuminate\Http\Request;
@@ -15,9 +16,10 @@ class SubindexController extends Controller {
 	}
 
 	public function getCreate() {
-		$indices = Index::orderBy('order')->get();
+		$indices     = Index::orderBy('order')->get();
+		$departments = Department::orderBy('is_college')->get();
 
-		return view('subindex.create', compact('indices'));
+		return view('subindex.create', compact('indices', 'departments'));
 	}
 
 	public function postSave(Request $request) {
@@ -31,7 +33,11 @@ class SubindexController extends Controller {
 		$inputs = $request->all();
 
 		if ($request->isMethod('post')) {
-			$subindex = new Subindex();
+			if (isset($inputs['departments'])) {
+				$inputs['departments'] = implode(',', $inputs['departments']);
+			}
+
+			$subindex = new Subindex;
 			$subindex->fill($inputs);
 
 			if ($subindex->save()) {
@@ -47,10 +53,12 @@ class SubindexController extends Controller {
 	}
 
 	public function getEdit($id) {
-		$subindex = Subindex::find($id);
-		$indices  = Index::orderBy('order')->get();
+		$subindex    = Subindex::find($id);
+		$indices     = Index::orderBy('order')->get();
+		$departments = Department::orderBy('is_college')->get();
+		$managers    = explode(',', $subindex->departments);
 
-		return view('subindex.edit', compact('subindex', 'indices'));
+		return view('subindex.edit', compact('subindex', 'indices', 'departments', 'managers'));
 	}
 
 	public function putUpdate(Request $request, $id) {
@@ -64,6 +72,10 @@ class SubindexController extends Controller {
 		$inputs = $request->all();
 
 		if ($request->isMethod('put')) {
+			if (isset($inputs['departments'])) {
+				$inputs['departments'] = implode(',', $inputs['departments']);
+			}
+
 			$subindex = Subindex::find($id);
 			$subindex->fill($inputs);
 

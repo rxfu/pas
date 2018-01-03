@@ -180,10 +180,6 @@ class DepartmentsTableSeeder extends Seeder {
 			'is_college' => false,
 		]);
 		Department::create([
-			'name'       => '职业技术学院',
-			'is_college' => true,
-		]);
-		Department::create([
 			'name'       => '组织部',
 			'is_college' => false,
 		]);

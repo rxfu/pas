@@ -23,7 +23,6 @@ class CreateScoresTable extends Migration {
 			$table->timestamps();
 
 			$table->foreign('department_id')->references('id')->on('departments');
-			$table->foreign('marker_id')->references('id')->on('markers');
 			$table->foreign('index_id')->references('id')->on('indices');
 			$table->foreign('subindex_id')->references('id')->on('subindices');
 
