@@ -20,7 +20,7 @@ class CreateSubindicesTable extends Migration {
 			$table->decimal('score', 5, 2);
 			$table->text('description')->nullable();
 			$table->integer('index_id')->unsigned();
-			$table->integer('department_id');
+			$table->string('departments');
 			$table->timestamps();
 
 			$table->foreign('index_id')->references('id')->on('indices');

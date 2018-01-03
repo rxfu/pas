@@ -12,7 +12,16 @@ class Marker extends Model {
 	 * @var array
 	 */
 	protected $fillable = [
-		'id', 'department_id', 'last_login_at',
+		'id', 'department_id', 'is_manager', 'last_login_at',
+	];
+
+	/**
+	 * The attributes that should be cast to native types.
+	 *
+	 * @var array
+	 */
+	protected $casts = [
+		'is_manager' => 'boolean',
 	];
 
 	public function department() {

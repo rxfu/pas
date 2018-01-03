@@ -40,7 +40,7 @@
                                                 <td>{{ $subindex->seq }}、{{ $subindex->name }}（{{ $subindex->score }}分）</td>
                                                 <td>{{ $subindex->description }}</td>
                                                 <td>
-                                                    <input type="number" name="score_{{ $department->id }}_{{ $index->id }}_{{ $subindex->id }}" class="form-control" value="{{ empty($scores) ? 0 : $scores[$department->id][session('marker')][$index->id][$subindex->id] }}" min="0" max="{{ $subindex->score }}">
+                                                    <input type="text" name="score_{{ $department->id }}_{{ $index->id }}_{{ $subindex->id }}" class="form-control" value="{{ empty($scores) ? 0 : $scores[$department->id][session('marker')][$index->id][$subindex->id] }}" min="0" max="{{ $subindex->score }}">
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -57,7 +57,7 @@
                                             <td colspan="2" class="align-middle">{{ $index->seq }}、{{ $index->name }}（{{ $index->score }}分）</td>
                                             <td>{{ $index->description }}</td>
                                             <td>
-                                                <input type="number" name="score_{{ $department->id }}_{{ $index->id }}_0" class="form-control" value="{{ empty($scores) ? 0 : $scores[$department->id][session('marker')][$index->id][0] }}" min="0" max="{{ $index->score }}">
+                                                <input type="text" name="score_{{ $department->id }}_{{ $index->id }}_0" class="form-control" value="{{ empty($scores) ? 0 : $scores[$department->id][session('marker')][$index->id][0] }}" min="0" max="{{ $index->score }}">
                                             </td>
                                         </tr>
                                     @endif

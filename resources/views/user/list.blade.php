@@ -13,6 +13,7 @@
 					<tr>
 						<th>ID</th>
 						<th>所在单位</th>
+						<th>是否主责</th>
 						<th>最后登录时间</th>
 						<th>创建时间</th>
 						<th>删除</th>
@@ -24,6 +25,7 @@
 						<tr>
 							<td>{{ $marker->id }}</td>
 							<td>{{ $marker->department->name }}</td>
+							<td>{{ $marker->is_manager }}</td>
 							<td>{{ $marker->last_login_at }}</td>
 							<td>{{ $marker->created_at }}</td>
 							<td>

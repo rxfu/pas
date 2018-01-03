@@ -18,6 +18,7 @@
 						<th>排序</th>
 						<th>说明</th>
 						<th>所属一级指标</th>
+						<th>主责部门</th>
 						<th>编辑</th>
 						<th>删除</th>
 					</tr>
@@ -33,6 +34,7 @@
 							<td>{{ $subindex->order }}</td>
 							<td>{{ $subindex->description }}</td>
 							<td>{{ $subindex->index->name }}</td>
+							<td>{{ $index->departments }}</td>
 							<td>
 								<p data-placement="top" data-toggle="tooltip" title="编辑">
 									<a href="{{ route('subindex.edit', $subindex->id) }}" class="btn btn-primary btn-xs" role="button">

@@ -12,7 +12,7 @@ class Index extends Model {
 	 * @var array
 	 */
 	protected $fillable = [
-		'name', 'seq', 'order', 'score', 'description',
+		'name', 'seq', 'order', 'score', 'description', 'departments',
 	];
 
 	public function subindices() {
