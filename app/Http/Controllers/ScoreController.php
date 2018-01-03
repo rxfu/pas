@@ -16,18 +16,12 @@ class ScoreController extends Controller {
 		return view('score.indices', compact('indices'));
 	}
 
-	public function getMark() {
+	public function getMark(Request $request, $index, $subindex = null) {
 		$departments = Department::orderBy('id')
 			->whereIsCollege(false)
 			->where('id', '<>', session('department'))
 			->get();
 		$indices = Index::with('subindices')->orderBy('order')->get();
-
-		$rows = 0;
-		foreach ($indices as $index) {
-			$count = $index->subindices->count();
-			$rows += $count ? $count : 1;
-		}
 
 		$objects = Score::whereMarkerId(session('marker'))
 			->where('year', '=', date('Y'))

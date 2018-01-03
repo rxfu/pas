@@ -21,23 +21,23 @@
                         @foreach ($indices as $index)
                             @if ($count = $index->subindices->count())
                                 @foreach ($index->subindices as $subindex)
-                                    @if (in_array(session('department'), explode(',', $subindex->departments)))
+                                    @if (($subindex->is_manager && in_array(session('department'), explode(',', $subindex->departments))) || (!$subindex->is_manager))
                                         <tr>
                                             @if ($loop->first)
                                                 <td rowspan="{{ $count }}" class="align-middle">{{ $index->seq }}、{{ $index->name }}（{{ $index->score }}分）</td>
                                             @endif
                                             <td>{{ $subindex->seq }}、{{ $subindex->name }}（{{ $subindex->score }}分）</td>
                                             <td>{{ $subindex->description }}</td>
-                                            <td><a href="#">评分</a></td>
+                                            <td><a href="{{ route('score.mark', [$index->id, $subindex->id]) }}">评分</a></td>
                                         </tr>
                                     @endif
                                 @endforeach
                             @else
-                                @if (in_array(session('department'), explode(',', $index->departments)))
+                                @if (($index->is_manager && in_array(session('department'), explode(',', $index->departments))) || (!$index->is_manager))
                                     <tr>
                                         <td colspan="2" class="align-middle">{{ $index->seq }}、{{ $index->name }}（{{ $index->score }}分）</td>
                                         <td>{{ $index->description }}</td>
-                                        <td><a href="#">评分</a></td>
+                                        <td><a href="{{ route('score.mark', [$index->id]) }}">评分</a></td>
                                     </tr>
                                 @endif
                             @endif
