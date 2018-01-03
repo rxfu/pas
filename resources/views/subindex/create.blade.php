@@ -47,6 +47,19 @@
 		</div>
 	</div>
 	<div class="form-group row">
+		<label for="is_manager" class="col-md-3 col-sm-3 col-xs-12 col-form-label text-right">是否主责评分</label>
+		<div class="col-md-6 col-sm-6 col-xs-12">
+			<div class="form-check form-check-inline">
+				<input type="radio" class="form-check-input" id="is_manager_yes" name="is_manager" value="1" checked>
+				<label for="is_manager_yes" class="form-check-label">是</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<input type="radio" class="form-check-input" id="is_manager_no" name="is_manager" value="0">
+				<label for="is_manager_no" class="form-check-label">否</label>
+			</div>
+		</div>
+	</div>
+	<div class="form-group row">
 		<label for="departments[]" class="col-md-3 col-sm-3 col-xs-12 col-form-label text-right">主责部门</label>
 		<div class="col-md-6 col-sm-6 col-xs-12">
 			@foreach ($departments as $department)

@@ -65,6 +65,7 @@ Route::prefix('marker')->group(function () {
 });
 
 Route::prefix('score')->group(function () {
+	Route::name('score.indices')->get('indices', 'ScoreController@getIndices');
 	Route::name('score.mark')->get('mark', 'ScoreController@getMark');
 	Route::name('score.create')->post('create', 'ScoreController@postMark');
 	Route::name('score.list')->get('list', 'ScoreController@getList');

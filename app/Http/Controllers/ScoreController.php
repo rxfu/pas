@@ -10,6 +10,12 @@ use Illuminate\Http\Request;
 
 class ScoreController extends Controller {
 
+	public function getIndices() {
+		$indices = Index::with('subindices')->orderBy('order')->get();
+
+		return view('score.indices', compact('indices'));
+	}
+
 	public function getMark() {
 		$departments = Department::orderBy('id')
 			->whereIsCollege(false)

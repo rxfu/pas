@@ -20,6 +20,7 @@ class CreateSubindicesTable extends Migration {
 			$table->decimal('score', 5, 2);
 			$table->text('description')->nullable();
 			$table->integer('index_id')->unsigned();
+			$table->boolean('is_manager')->default(true);
 			$table->string('departments')->nullable();
 			$table->timestamps();
 

@@ -110,7 +110,9 @@ class MarkerController extends Controller {
 				$marker->last_login_at = Carbon::now();
 				$marker->save();
 
-				return redirect()->route('score.mark');
+				$request->session()->put('is_manager', $marker->is_manager);
+
+				return redirect()->route('score.indices');
 			} else {
 				$request->session()->flash('danger', '验证码与部门不一致，登录评分系统失败');
 

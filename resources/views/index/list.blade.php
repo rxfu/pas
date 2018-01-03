@@ -17,6 +17,7 @@
 						<th>分值</th>
 						<th>排序</th>
 						<th>说明</th>
+						<th>是否主责评分</th>
 						<th>主责部门</th>
 						<th>编辑</th>
 						<th>删除</th>
@@ -32,6 +33,7 @@
 							<td>{{ $index->score }}</td>
 							<td>{{ $index->order }}</td>
 							<td>{{ $index->description }}</td>
+							<td>{{ $index->is_manager ? '是' : '否' }}</td>
 							<td>{{ $index->departments }}</td>
 							<td>
 								<p data-placement="top" data-toggle="tooltip" title="编辑">

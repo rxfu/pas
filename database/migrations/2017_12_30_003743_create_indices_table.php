@@ -19,6 +19,7 @@ class CreateIndicesTable extends Migration {
 			$table->integer('order')->default(0);
 			$table->decimal('score', 5, 2);
 			$table->text('description')->nullable();
+			$table->boolean('is_manager')->default(true);
 			$table->string('departments')->nullable();
 			$table->timestamps();
 		});

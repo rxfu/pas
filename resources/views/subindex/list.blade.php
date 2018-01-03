@@ -18,6 +18,7 @@
 						<th>排序</th>
 						<th>说明</th>
 						<th>所属一级指标</th>
+						<th>是否主责评分</th>
 						<th>主责部门</th>
 						<th>编辑</th>
 						<th>删除</th>
@@ -34,6 +35,7 @@
 							<td>{{ $subindex->order }}</td>
 							<td>{{ $subindex->description }}</td>
 							<td>{{ $subindex->index->name }}</td>
+							<td>{{ $subindex->is_manager ? '是' : '否' }}</td>
 							<td>{{ $subindex->departments }}</td>
 							<td>
 								<p data-placement="top" data-toggle="tooltip" title="编辑">
