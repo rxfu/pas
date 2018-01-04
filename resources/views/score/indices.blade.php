@@ -20,7 +20,7 @@
                     <tbody>
                         @foreach ($items as $key => $item)
                             @if (isset($item['subindices']))
-                                @foreach ($item['subindices'] as $subkey=>$subindex)
+                                @foreach ($item['subindices'] as $subkey => $subindex)
                                     <tr>
                                         @if ($loop->first)
                                             <td rowspan="{{ count($item['subindices']) }}" class="align-middle">{{ $item['seq'] }}、{{ $item['name'] }}（{{ $item['score'] }}分）</td>
@@ -34,7 +34,7 @@
                                 <tr>
                                     <td colspan="2" class="align-middle">{{ $item['seq'] }}、{{ $item['name'] }}（{{ $item['score'] }}分）</td>
                                     <td>{!! nl2br($item['description']) !!}</td>
-                                    <td><a href="{{ route('score.mark', [$key]) }}">评分</a></td>
+                                    <td><a href="{{ route('score.mark', [$key, 0]) }}">评分</a></td>
                                 </tr>
                             @endif
                         @endforeach

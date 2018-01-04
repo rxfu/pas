@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Department;
 use App\Index;
 use App\Score;
+use App\Subindex;
 use DB;
 use Illuminate\Http\Request;
 
@@ -54,40 +55,48 @@ class ScoreController extends Controller {
 		return view('score.indices', compact('department', 'items'));
 	}
 
-	public function getMark(Request $request, $index, $subindex = null) {
-		$departments = Department::orderBy('id')
-			->whereIsCollege(false)
-			->where('id', '<>', session('department'))
+	public function getMark(Request $request, $index, $subindex) {
+		$departments = Department::whereIsCollege(false)
+			->orderBy('id')
 			->get();
-		$indices = Index::with('subindices')->orderBy('order')->get();
 
-		$objects = Score::whereMarkerId(session('marker'))
-			->where('year', '=', date('Y'))
-			->get();
-		$scores = [];
-		foreach ($objects as $obj) {
-			$subindex = empty($obj->subindex_id) ? 0 : $obj->subindex_id;
+		$objects = Score::whereMarkerId($request->session()->get('marker'))
+			->whereIndexId($index)
+			->where('year', '=', date('Y'));
 
-			$scores[$obj->department_id][$obj->marker_id][$obj->index_id][$subindex] = $obj->score;
+		if (!empty($subindex)) {
+			$objects = $objects->whereSubindexId($subindex);
 		}
 
-		return view('score.mark', compact('departments', 'indices', 'scores', 'rows'));
+		$objects = $objects->get();
+
+		$scores = [];
+		foreach ($objects as $obj) {
+			$scores[$obj->department_id] = $obj->score;
+		}
+
+		$index    = Index::find($index);
+		$subindex = $subindex ? Subindex::find($subindex) : null;
+
+		return view('score.mark', compact('departments', 'index', 'subindex', 'scores'));
 	}
 
 	public function postMark(Request $request) {
 		if ($request->isMethod('post')) {
 			$inputs = $request->all();
 			array_pull($inputs, '_token');
+			$index    = array_pull($inputs, 'index_id');
+			$subindex = array_pull($inputs, 'subindex_id');
 
 			foreach ($inputs as $key => $value) {
-				list($name, $department, $index, $subindex) = explode('_', $key);
+				list($name, $department) = explode('_', $key);
 
 				$obj = Score::whereDepartmentId($department)
 					->whereMarkerId($request->session()->get('marker'))
 					->whereIndexId($index)
 					->where('year', '=', date('Y'));
 
-				if ($subindex != 0) {
+				if (!empty($subindex)) {
 					$obj = $obj->whereSubindexId($subindex);
 				}
 
@@ -103,14 +112,14 @@ class ScoreController extends Controller {
 				$score->year          = date('Y');
 				$score->score         = is_null($value) ? 0 : $value;
 
-				if ($subindex != 0) {
+				if (!empty($subindex)) {
 					$score->subindex_id = $subindex;
 				}
 
 				$score->save();
 			}
 
-			return redirect()->route('score.mark');
+			return redirect()->route('score.indices');
 		}
 	}
 

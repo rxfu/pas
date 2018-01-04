@@ -17,6 +17,7 @@
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/sb-admin.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @stack('styles')
 </head>
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
     <div id="app">
@@ -33,6 +34,9 @@
                         <a class="nav-link" href="{{ route('login') }}">管理</a>
                     </li>
                 @else
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('score.indices') }}" title="返回指标列表">返回指标列表</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('marker.logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                             <i class="fa fa-fw fa-sign-out"></i>退出系统
@@ -90,5 +94,6 @@
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
+    @stack('scripts')
 </body>
 </html>
