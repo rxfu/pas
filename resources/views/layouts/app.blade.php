@@ -15,6 +15,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/dataTables.bootstrap4.css') }}" rel="stylesheet">
     <link href="{{ asset('css/sb-admin.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @stack('styles')
@@ -97,7 +98,14 @@
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/jquery.easing.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('js/dataTables.bootstrap4.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+    $(function() {
+        $('#dataTable').dataTable();
+    });
+    </script>
     @stack('scripts')
 </body>
 </html>
