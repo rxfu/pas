@@ -16,6 +16,6 @@ class Index extends Model {
 	];
 
 	public function subindices() {
-		return $this->hasMany('App\Subindex', 'index_id', 'id');
+		return $this->hasMany('App\Subindex', 'index_id', 'id')->orderBy('order');
 	}
 }

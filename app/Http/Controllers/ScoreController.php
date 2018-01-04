@@ -11,9 +11,47 @@ use Illuminate\Http\Request;
 class ScoreController extends Controller {
 
 	public function getIndices() {
-		$indices = Index::with('subindices')->orderBy('order')->get();
+		$department = Department::find(session('department'))->name;
+		$indices    = Index::with('subindices')->orderBy('order')->get();
 
-		return view('score.indices', compact('indices'));
+		$items = [];
+		foreach ($indices as $index) {
+			if ($index->subindices->count()) {
+				$subindices = [];
+
+				foreach ($index->subindices as $subindex) {
+					if (($subindex->is_manager && session('is_manager') && in_array(session('department'), explode(',', $subindex->departments))) || (!$subindex->is_manager)) {
+						$subindices[$subindex->id] = [
+							'seq'         => $subindex->seq,
+							'name'        => $subindex->name,
+							'score'       => $subindex->score,
+							'description' => $subindex->description,
+						];
+					}
+				}
+
+				if (!empty($subindices)) {
+					$items[$index->id] = [
+						'seq'         => $index->seq,
+						'name'        => $index->name,
+						'score'       => $index->score,
+						'description' => $index->description,
+						'subindices'  => $subindices,
+					];
+				}
+			} else {
+				if (($index->is_manager && session('is_manager') && in_array(session('department'), explode(',', $index->departments))) || (!$index->is_manager)) {
+					$items[$index->id] = [
+						'seq'         => $index->seq,
+						'name'        => $index->name,
+						'score'       => $index->score,
+						'description' => $index->description,
+					];
+				}
+			}
+		}
+
+		return view('score.indices', compact('department', 'items'));
 	}
 
 	public function getMark(Request $request, $index, $subindex = null) {

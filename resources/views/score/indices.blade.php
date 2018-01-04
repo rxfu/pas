@@ -1,45 +1,41 @@
 @extends('layouts.default')
 
-@section('title', '绩效考核指标列表')
+@section('title', $department . '绩效考核评分指标')
 
 @section('content')
 <div class="container">
     <div class="card mx-auto md-3">
-        <div class="card-header">绩效考核指标列表</div>
+        <div class="card-header">{{ $department }}绩效考核评分指标</div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>一级指标</th>
-                            <th>二级指标</th>
-                            <th>观测点</th>
-                            <th>评分</th>
+                            <th class="text-nowrap">一级指标</th>
+                            <th class="text-nowrap">二级指标</th>
+                            <th class="text-nowrap">观测点</th>
+                            <th class="text-nowrap">评分</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($indices as $index)
-                            @if ($count = $index->subindices->count())
-                                @foreach ($index->subindices as $subindex)
-                                    @if (($subindex->is_manager && in_array(session('department'), explode(',', $subindex->departments))) || (!$subindex->is_manager))
-                                        <tr>
-                                            @if ($loop->first)
-                                                <td rowspan="{{ $count }}" class="align-middle">{{ $index->seq }}、{{ $index->name }}（{{ $index->score }}分）</td>
-                                            @endif
-                                            <td>{{ $subindex->seq }}、{{ $subindex->name }}（{{ $subindex->score }}分）</td>
-                                            <td>{{ $subindex->description }}</td>
-                                            <td><a href="{{ route('score.mark', [$index->id, $subindex->id]) }}">评分</a></td>
-                                        </tr>
-                                    @endif
+                        @foreach ($items as $key => $item)
+                            @if (isset($item['subindices']))
+                                @foreach ($item['subindices'] as $subkey=>$subindex)
+                                    <tr>
+                                        @if ($loop->first)
+                                            <td rowspan="{{ count($item['subindices']) }}" class="align-middle">{{ $item['seq'] }}、{{ $item['name'] }}（{{ $item['score'] }}分）</td>
+                                        @endif
+                                        <td>{{ $subindex['seq'] }}、{{ $subindex['name'] }}（{{ $subindex['score'] }}分）</td>
+                                        <td>{!! nl2br($subindex['description']) !!}</td>
+                                        <td><a href="{{ route('score.mark', [$key, $subkey]) }}">评分</a></td>
+                                    </tr>
                                 @endforeach
                             @else
-                                @if (($index->is_manager && in_array(session('department'), explode(',', $index->departments))) || (!$index->is_manager))
-                                    <tr>
-                                        <td colspan="2" class="align-middle">{{ $index->seq }}、{{ $index->name }}（{{ $index->score }}分）</td>
-                                        <td>{{ $index->description }}</td>
-                                        <td><a href="{{ route('score.mark', [$index->id]) }}">评分</a></td>
-                                    </tr>
-                                @endif
+                                <tr>
+                                    <td colspan="2" class="align-middle">{{ $item['seq'] }}、{{ $item['name'] }}（{{ $item['score'] }}分）</td>
+                                    <td>{!! nl2br($item['description']) !!}</td>
+                                    <td><a href="{{ route('score.mark', [$key]) }}">评分</a></td>
+                                </tr>
                             @endif
                         @endforeach
                     </tbody>
