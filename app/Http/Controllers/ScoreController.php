@@ -6,8 +6,8 @@ use App\Department;
 use App\Index;
 use App\Score;
 use App\Subindex;
-use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ScoreController extends Controller {
 
@@ -132,25 +132,65 @@ class ScoreController extends Controller {
 	}
 
 	public function getStatistics() {
-		$scores = DB::table('scores')
-			->select(DB::raw('marker_id, department_id, name, SUM(score) AS total'))
-			->join('departments', 'departments.id', '=', 'department_id')
-			->groupBy('marker_id', 'department_id', 'name')
-			->get();
+/*		$scores = DB::table('scores')
+->select(DB::raw('marker_id, department_id, name, SUM(score) AS total'))
+->join('departments', 'departments.id', '=', 'department_id')
+->groupBy('marker_id', 'department_id', 'name')
+->get();
 
-		$totals = [];
-		foreach ($scores->groupBy('department_id') as $key => $value) {
-			$totals[$key]['marker_id']     = $value[0]->marker_id;
-			$totals[$key]['department_id'] = $value[0]->department_id;
-			$totals[$key]['name']          = $value[0]->name;
+$totals = [];
+foreach ($scores->groupBy('department_id') as $key => $value) {
+$totals[$key]['marker_id']     = $value[0]->marker_id;
+$totals[$key]['department_id'] = $value[0]->department_id;
+$totals[$key]['name']          = $value[0]->name;
 
-			if (1 == count($value)) {
-				$totals[$key]['total'] = $value[0]->total;
-			} elseif (2 == count($value)) {
-				$totals[$key]['total'] = $value->avg('total');
-			} else {
-				$totals[$key]['total'] = ($value->sum('total') - $value->min('total') - $value->max('total')) / ($value->count() - 2);
+if (1 == count($value)) {
+$totals[$key]['total'] = $value[0]->total;
+} elseif (2 == count($value)) {
+$totals[$key]['total'] = $value->avg('total');
+} else {
+$totals[$key]['total'] = ($value->sum('total') - $value->min('total') - $value->max('total')) / ($value->count() - 2);
+}
+}
+ */
+		$totals      = [];
+		$departments = Department::whereIsCollege(false)->get();
+		foreach ($departments as $department) {
+			/*$scores = Score::whereDepartmentId($department->id)
+				->where('year', '=', date('Y'))
+				->get();*/
+			$scores = DB::table('scores')
+				->select(DB::raw('marker_id, department_id, name, index_id,SUM(score) AS score'))
+				->join('departments', 'departments.id', '=', 'department_id')
+				->groupBy('marker_id', 'department_id', 'name', 'index_id')
+				->where('year', '=', date('Y'))
+				->where('department_id', '=', $department->id)
+				->get();
+
+			$totals[$department->id] = [
+				'name' => $department->name,
+			];
+
+			$indices = [];
+			foreach ($scores as $score) {
+				$indices[$score->index_id][] = $score->score;
 			}
+
+			$values = [];
+			foreach ($indices as $key => $value) {
+				$index = Index::find($key);
+				if ($index->is_manager) {
+					$values[$key] = array_sum($value) / count($value);
+				} else {
+					if (2 < count($value)) {
+						$values[$key] = (array_sum($value) - min($value) - max($value)) / (count($value) - 2);
+					} else {
+						$values[$key] = array_sum($value) / count($value);
+					}
+				}
+			}
+
+			$totals[$department->id]['total'] = array_sum($values);
 		}
 
 		usort($totals, function ($a, $b) {
