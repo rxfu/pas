@@ -7,7 +7,6 @@ use App\Index;
 use App\Score;
 use App\Subindex;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ScoreController extends Controller {
 
@@ -159,38 +158,82 @@ $totals[$key]['total'] = ($value->sum('total') - $value->min('total') - $value->
 			/*$scores = Score::whereDepartmentId($department->id)
 				->where('year', '=', date('Y'))
 				->get();*/
-			$scores = DB::table('scores')
+			/*$scores = DB::table('scores')
 				->select(DB::raw('marker_id, department_id, name, index_id,SUM(score) AS score'))
 				->join('departments', 'departments.id', '=', 'department_id')
 				->groupBy('marker_id', 'department_id', 'name', 'index_id')
 				->where('year', '=', date('Y'))
 				->where('department_id', '=', $department->id)
-				->get();
+				->get();*/
 
 			$totals[$department->id] = [
-				'name' => $department->name,
+				'name'  => $department->name,
+				'total' => 0,
 			];
 
-			$indices = [];
-			foreach ($scores as $score) {
-				$indices[$score->index_id][] = $score->score;
-			}
+			$indices = Index::all();
+			foreach ($indices as $index) {
+				if ($index->subindices->count()) {
+					foreach ($index->subindices as $subindex) {
+						$scores = Score::whereDepartmentId($department->id)
+							->whereIndexId($index->id)
+							->whereSubindexId($subindex->id)
+							->where('year', '=', date('Y'))
+							->get();
 
-			$values = [];
-			foreach ($indices as $key => $value) {
-				$index = Index::find($key);
-				if ($index->is_manager) {
-					$values[$key] = array_sum($value) / count($value);
+						if (count($scores)) {
+							if ($subindex->is_manager) {
+								$totals[$department->id]['total'] += $scores->avg('score');
+							} else {
+								if (2 < $scores->count()) {
+									$val = ($scores->sum('score') - $scores->min('score') - $scores->max('score')) / ($scores->count() - 2);
+									$totals[$department->id]['total'] += $val;
+								} else {
+									$totals[$department->id]['total'] += $scores->avg('score');
+								}
+							}
+						}
+					}
 				} else {
-					if (2 < count($value)) {
-						$values[$key] = (array_sum($value) - min($value) - max($value)) / (count($value) - 2);
-					} else {
-						$values[$key] = array_sum($value) / count($value);
+					$scores = Score::whereDepartmentId($department->id)
+						->whereIndexId($index->id)
+						->where('year', '=', date('Y'))
+						->get();
+
+					if (count($scores)) {
+						if ($index->is_manager) {
+							$totals[$department->id]['total'] += $scores->avg('score');
+						} else {
+							if (2 < $scores->count()) {
+								$val = ($scores->sum('score') - $scores->min('score') - $scores->max('score')) / ($scores->count() - 2);
+								$totals[$department->id]['total'] += $val;
+							} else {
+								$totals[$department->id]['total'] += $scores->avg('score');
+							}
+						}
 					}
 				}
 			}
+			/*
+				foreach ($scores as $score) {
+					$indices[$score->index_id][] = $score->score;
+				}
 
-			$totals[$department->id]['total'] = array_sum($values);
+				$values = [];
+				foreach ($indices as $key => $value) {
+					$index = Index::find($key);
+					if ($index->is_manager) {
+						$values[$key] = array_sum($value) / count($value);
+					} else {
+						if (2 < count($value)) {
+							$values[$key] = (array_sum($value) - min($value) - max($value)) / (count($value) - 2);
+						} else {
+							$values[$key] = array_sum($value) / count($value);
+						}
+					}
+				}
+
+			*/
 		}
 
 		usort($totals, function ($a, $b) {
