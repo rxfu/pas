@@ -103,7 +103,11 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <script>
     $(function() {
-        $('#dataTable').dataTable();
+        $('#dataTable').dataTable({
+            "language": {
+                "url": "{{ asset('js/dataTables.chinese.lang') }}"
+            }
+        });
     });
     </script>
     @stack('scripts')

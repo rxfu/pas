@@ -11,7 +11,7 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 				<thead>
 					<tr>
-						<th><em>ID</em></th>
+						<th><em>评分ID</em></th>
 						<th>单位名称</th>
 						<th>一级指标</th>
 						<th>二级指标</th>
