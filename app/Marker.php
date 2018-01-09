@@ -24,7 +24,15 @@ class Marker extends Model {
 		'is_manager' => 'boolean',
 	];
 
+	protected $primaryKey = 'id';
+
+	public $incrementing = false;
+
 	public function department() {
 		return $this->belongsTo('App\Department', 'department_id', 'id');
+	}
+
+	public function scores() {
+		return $this->hasMany('App\Score', 'marker_id', 'id');
 	}
 }

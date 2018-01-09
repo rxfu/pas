@@ -11,9 +11,10 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 				<thead>
 					<tr>
-						<th>ID</th>
+						<th>验证码</th>
 						<th>所在单位</th>
 						<th>是否主责</th>
+						<th>是否评分</th>
 						<th>最后登录时间</th>
 						<th>创建时间</th>
 						<th>删除</th>
@@ -26,6 +27,7 @@
 							<td>{{ $marker->id }}</td>
 							<td>{{ $marker->department->name }}</td>
 							<td>{{ $marker->is_manager ? '是' : '否' }}</td>
+							<td>{{ $marker->scores->count() ? '是' : '否' }}</td>
 							<td>{{ $marker->last_login_at }}</td>
 							<td>{{ $marker->created_at }}</td>
 							<td>
@@ -46,7 +48,7 @@
 				<tfoot>
 					<tr>
 						<td colspan="5">
-							<a href="{{ route('user.create') }}" class="btn btn-success"><i class="fa fa-plus"></i> 新增</a>
+							<a href="{{ route('user.save') }}" class="btn btn-success"><i class="fa fa-plus"></i> 新增</a>
 							<a href="#" class="btn btn-danger" role="button" onclick="confirm('你确定要删除这条记录？') ? document.getElementById('destroy-form').submit() : false"><i class="fa fa-minus"></i> 清空</a>
 							<form id="destroy-form" method="post" action="{{ route('user.destroy') }}" style="display: none">
 								{{ method_field('delete') }}

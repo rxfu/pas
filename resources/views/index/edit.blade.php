@@ -32,9 +32,9 @@
 		</div>
 	</div>
 	<div class="form-group row">
-		<label for="description" class="col-md-3 col-sm-3 col-xs-12 col-form-label text-right">说明</label>
+		<label for="description" class="col-md-3 col-sm-3 col-xs-12 col-form-label text-right">观测点</label>
 		<div class="col-md-6 col-sm-6 col-xs-12">
-			<textarea class="form-control col-md-7 col-xs-12" rows="5" id="description" name="description" placeholder="说明">{{ $index->description }}</textarea>
+			<textarea class="form-control col-md-7 col-xs-12" rows="5" id="description" name="description" placeholder="观测点">{{ $index->description }}</textarea>
 		</div>
 	</div>
 	<div class="form-group row">

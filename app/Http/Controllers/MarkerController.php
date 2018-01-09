@@ -6,6 +6,7 @@ use App\Department;
 use App\Marker;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MarkerController extends Controller {
 
@@ -20,34 +21,37 @@ class MarkerController extends Controller {
 	}
 
 	public function postSave(Request $request) {
-		$this->validate($request, [
-			'count' => 'required|numeric',
-		]);
+		$departments = Department::all();
+		// $codes       = array_random(range(1000, 9999), $departments->count() * $count);
+		// shuffle($codes);
 
-		if ($request->isMethod('post')) {
-			$inputs = $request->all();
-			$count  = $inputs['count'];
-
-			$departments = Department::all();
-			$codes       = array_random(range(1000, 9999), $departments->count() * $count);
-			shuffle($codes);
-
-			foreach ($departments as $department) {
-				for ($i = 0; $i < $count; ++$i) {
-					$marker                = new Marker;
-					$marker->id            = array_pop($codes);
-					$marker->department_id = $department->id;
-
-					if (0 == $i) {
-						$marker->is_manager = !$department->is_college;
-					}
-
-					$marker->save();
-				}
+		foreach ($departments as $department) {
+			if ($department->is_college) {
+				$count = 6;
+			} else {
+				$count = 1;
 			}
 
-			return redirect()->route('user.list');
+			$result = DB::table('departments')
+				->select(DB::raw('max(id) AS imax'))
+				->first();
+
+			if ($result->imax == $department->id) {
+				$count = 11;
+			}
+
+			for ($i = 0; $i < $count; ++$i) {
+				$marker = new Marker;
+				// $marker->id            = array_pop($codes);
+				$marker->id            = str_random(6);
+				$marker->department_id = $department->id;
+				$marker->is_manager    = !$department->is_college;
+
+				$marker->save();
+			}
 		}
+
+		return redirect()->route('user.list');
 	}
 
 	public function deleteDelete(Request $request, $id) {

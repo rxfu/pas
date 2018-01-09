@@ -26,7 +26,6 @@
                             <tr>
                                 <th><em>ID</em></th>
                                 <th>部门</th>
-                                <th>自评材料</th>
                                 <th>得分</th>
                             </tr>
                         </thead>
@@ -39,14 +38,11 @@
                                     <td><em>{{ $loop->iteration }}</em></td>
                                     <th>{{ $department->name }}</th>
                                     <td>
-                                        @if (!empty($department->path))
-                                            <a href="{{ asset('storage/' . $department->path) }}" title="下载">下载</a>
+                                        @if (empty($scores))
+                                            <input type="text" name="score_{{ $department->id }}" class="form-control" required>
                                         @else
-                                            无
+                                            {{ $scores[$department->id] }}
                                         @endif
-                                    </td>
-                                    <td>
-                                        <input type="text" name="score_{{ $department->id }}" class="form-control" value="{{ empty($scores) ? '' : $scores[$department->id] }}">
                                     </td>
                                 </tr>
                             @endforeach
@@ -77,6 +73,21 @@ $(function() {
             this.value = '';
         }
     });
+    $('form').on('submit', function(e) {
+        var flag = true;
+
+        $('input').each(function() {
+            if ('' == $(this).val()) {
+                flag = false;
+            }
+        });
+
+        if (!flag) {
+            alert('还有部门未评分，请评完分再提交');
+        }
+
+        return flag;
+    })
 });
 </script>
 @endpush

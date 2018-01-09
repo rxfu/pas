@@ -23,7 +23,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::prefix('user')->group(function () {
 		Route::name('user.list')->get('list', 'MarkerController@getList');
 		Route::name('user.create')->get('create', 'MarkerController@getCreate');
-		Route::name('user.save')->post('save', 'MarkerController@postSave');
+		Route::name('user.save')->get('save', 'MarkerController@postSave');
 		Route::name('user.delete')->delete('{id}/delete', 'MarkerController@deleteDelete');
 		Route::name('user.destroy')->delete('destroy', 'MarkerController@deleteDestroy');
 		Route::name('user.chgpwd')->get('change-password', 'UserController@getChangePassword');
