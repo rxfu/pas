@@ -34,7 +34,7 @@
                             <input type="hidden" name="subindex_id" value="{{ is_null($subindex) ? '' : $subindex->id }}">
 
                             @foreach ($departments as $department)
-                                @if (52 != $department->id)
+                                @if (52 != $department->id || 53 != $department->id)
                                     <tr>
                                         <td><em>{{ $loop->iteration }}</em></td>
                                         <th>{{ $department->name }}</th>
@@ -78,7 +78,7 @@ $(function() {
     $('form').on('submit', function(e) {
         var flag = true;
 
-        $('input').each(function() {
+        $('input:text').each(function() {
             if ('' == $(this).val()) {
                 flag = false;
             }

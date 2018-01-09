@@ -159,7 +159,7 @@ class ScoreController extends Controller {
 							->get();
 
 						if (count($scores)) {
-							if (count(explode(',', $subindex->departments)) > 15) {
+							if (count(explode(',', $subindex->departments)) < 15) {
 								$totals[$department->id]['total'] += $scores->avg('score');
 							} else {
 								$scores = DB::table('scores')
@@ -188,7 +188,7 @@ class ScoreController extends Controller {
 						->get();
 
 					if (count($scores)) {
-						if (count(explode(',', $index->departments)) > 15) {
+						if (count(explode(',', $index->departments)) < 15) {
 							$totals[$department->id]['total'] += $scores->avg('score');
 						} else {
 							if (2 < $scores->count()) {
