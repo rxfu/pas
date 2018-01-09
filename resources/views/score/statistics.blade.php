@@ -21,7 +21,7 @@
 					@foreach ($totals as $total)
 						<tr>
 							<td>{{ $total['name'] }}</td>
-							<td>{{ $total['total'] }}</td>
+							<td>{{ number_format($total['total'], 2) }}</td>
 							<td>{{ $loop->iteration }}</td>
 						</tr>
 					@endforeach

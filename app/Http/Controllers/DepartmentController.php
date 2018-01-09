@@ -32,10 +32,13 @@ class DepartmentController extends Controller {
 			$department->fill($inputs);
 
 			if ($request->hasFile('file') && $request->file('file')->isValid()) {
-				$file             = $request->file('file');
-				$filename         = time() . '.' . $file->getClientOriginalExtension();
-				$department->path = $this->upload . '/' . $filename;
-				$file->storeAs('public/' . $this->upload, $filename);
+				$file = $request->file('file');
+				// $filename         = time() . '.' . $file->getClientOriginalExtension();
+				// $department->path = $this->upload . '/' . $filename;
+				// $file->storeAs('public/' . $this->upload, $filename);
+				$filename         = 'zpcl.zip';
+				$department->path = $filename;
+				$file->storeAs('public/', $filename);
 			}
 
 			if ($department->save()) {
@@ -69,10 +72,13 @@ class DepartmentController extends Controller {
 			$department->fill($inputs);
 
 			if ($request->hasFile('file') && $request->file('file')->isValid()) {
-				$file             = $request->file('file');
-				$filename         = time() . '.' . $file->getClientOriginalExtension();
-				$department->path = $this->upload . '/' . $filename;
-				$file->storeAs('public/' . $this->upload, $filename);
+				$file = $request->file('file');
+				// $filename         = time() . '.' . $file->getClientOriginalExtension();
+				// $department->path = $this->upload . '/' . $filename;
+				// $file->storeAs('public/' . $this->upload, $filename);
+				$filename         = 'zpcl.zip';
+				$department->path = $filename;
+				$file->storeAs('public/', $filename);
 			}
 
 			if ($department->save()) {
