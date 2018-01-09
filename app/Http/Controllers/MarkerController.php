@@ -30,11 +30,8 @@ class MarkerController extends Controller {
 				$count = 1;
 			}
 
-			$result = DB::table('departments')
-				->select(DB::raw('max(id) AS imax'))
-				->first();
-
-			if ($result->imax == $department->id) {
+			// 校领导
+			if (52 == $department->id) {
 				$count = 11;
 			}
 

@@ -34,17 +34,19 @@
                             <input type="hidden" name="subindex_id" value="{{ is_null($subindex) ? '' : $subindex->id }}">
 
                             @foreach ($departments as $department)
-                                <tr>
-                                    <td><em>{{ $loop->iteration }}</em></td>
-                                    <th>{{ $department->name }}</th>
-                                    <td>
-                                        @if (empty($scores))
-                                            <input type="text" name="score_{{ $department->id }}" class="form-control" required>
-                                        @else
-                                            {{ $scores[$department->id] }}
-                                        @endif
-                                    </td>
-                                </tr>
+                                @if (52 != $department->id)
+                                    <tr>
+                                        <td><em>{{ $loop->iteration }}</em></td>
+                                        <th>{{ $department->name }}</th>
+                                        <td>
+                                            @if (empty($scores))
+                                                <input type="text" name="score_{{ $department->id }}" class="form-control" required>
+                                            @else
+                                                {{ $scores[$department->id] }}
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endif
                             @endforeach
                         </tbody>
                         <tfoot>

@@ -21,7 +21,7 @@ class ScoreController extends Controller {
 				$subindices = [];
 
 				foreach ($index->subindices as $subindex) {
-					if (($subindex->is_manager && session('is_manager') && in_array(session('department'), explode(',', $subindex->departments))) || (!$subindex->is_manager)) {
+					if (in_array(session('department'), explode(',', $subindex->departments))) {
 						$subindices[$subindex->id] = [
 							'seq'         => $subindex->seq,
 							'name'        => $subindex->name,
@@ -41,7 +41,7 @@ class ScoreController extends Controller {
 					];
 				}
 			} else {
-				if (($index->is_manager && session('is_manager') && in_array(session('department'), explode(',', $index->departments))) || (!$index->is_manager)) {
+				if (in_array(session('department'), explode(',', $index->departments))) {
 					$items[$index->id] = [
 						'seq'         => $index->seq,
 						'name'        => $index->name,
