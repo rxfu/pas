@@ -5,7 +5,12 @@
 @section('content')
 <div class="container">
     <div class="card mx-auto md-3">
-        <div class="card-header">{{ $department }}绩效考核评分指标</div>
+        <div class="card-header text-center">
+            {{ $department }}绩效考核评分指标
+            <span class="text-right">
+                <a href="{{ asset('storage/zpcl.zip') }}" class="btn btn-success" role="button" title="下载自评材料">下载自评材料</a>
+            </span>
+        </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">

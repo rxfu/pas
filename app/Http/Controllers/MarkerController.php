@@ -22,8 +22,6 @@ class MarkerController extends Controller {
 
 	public function postSave(Request $request) {
 		$departments = Department::all();
-		// $codes       = array_random(range(1000, 9999), $departments->count() * $count);
-		// shuffle($codes);
 
 		foreach ($departments as $department) {
 			if ($department->is_college) {
@@ -41,8 +39,7 @@ class MarkerController extends Controller {
 			}
 
 			for ($i = 0; $i < $count; ++$i) {
-				$marker = new Marker;
-				// $marker->id            = array_pop($codes);
+				$marker                = new Marker;
 				$marker->id            = str_random(6);
 				$marker->department_id = $department->id;
 				$marker->is_manager    = !$department->is_college;
@@ -96,7 +93,7 @@ class MarkerController extends Controller {
 
 	public function postLogin(Request $request) {
 		$this->validate($request, [
-			'id' => 'required|numeric',
+			'id' => 'required',
 		]);
 
 		if ($request->isMethod('post')) {
