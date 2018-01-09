@@ -39,7 +39,12 @@ class MarkerController extends Controller {
 				$marker                = new Marker;
 				$marker->id            = str_random(6);
 				$marker->department_id = $department->id;
-				$marker->is_manager    = !$department->is_college;
+
+				if ($department->is_college) {
+					$marker->is_manager = (0 == $i);
+				} else {
+					$marker->is_manager = false;
+				}
 
 				$marker->save();
 			}
