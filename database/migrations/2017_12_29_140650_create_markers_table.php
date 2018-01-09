@@ -20,7 +20,7 @@ class CreateMarkersTable extends Migration {
 			$table->timestamps();
 
 			$table->primary('id');
-			$table->foreign('department_id')->references('id')->on('departments');
+			$table->foreign('department_id')->references('id')->on('departments')->onUpdate('cascade')->onDelete('cascade');
 		});
 	}
 

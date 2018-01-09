@@ -22,9 +22,9 @@ class CreateScoresTable extends Migration {
 			$table->string('year');
 			$table->timestamps();
 
-			$table->foreign('department_id')->references('id')->on('departments');
-			$table->foreign('index_id')->references('id')->on('indices');
-			$table->foreign('subindex_id')->references('id')->on('subindices');
+			$table->foreign('department_id')->references('id')->on('departments')->onUpdate('cascade')->onDelete('cascade');
+			$table->foreign('index_id')->references('id')->on('indices')->onUpdate('cascade')->onDelete('cascade');
+			$table->foreign('subindex_id')->references('id')->on('subindices')->onUpdate('cascade')->onDelete('cascade');
 
 			$table->unique(['year', 'department_id', 'marker_id', 'index_id', 'subindex_id']);
 		});

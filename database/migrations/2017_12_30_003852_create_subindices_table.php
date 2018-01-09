@@ -24,7 +24,7 @@ class CreateSubindicesTable extends Migration {
 			$table->string('departments')->nullable();
 			$table->timestamps();
 
-			$table->foreign('index_id')->references('id')->on('indices');
+			$table->foreign('index_id')->references('id')->on('indices')->onUpdate('cascade')->onDelete('cascade');
 		});
 	}
 
