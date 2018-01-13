@@ -141,6 +141,21 @@ class ScoreController extends Controller {
 		return view('score.list', compact('scores'));
 	}
 
+	public function getDetail($department, $index, $subindex = 0) {
+		$scores = Score::with('department', 'index', 'subindex')
+			->whereDepartmentId($department)
+			->whereIndexId($index)
+			->orderBy('marker_id');
+
+		if (0 != $subindex) {
+			$scores = $scores->whereSubindexId($subindex);
+		}
+
+		$scores = $scores->get();
+
+		return view('score.list', compact('scores'));
+	}
+
 	public function getStatistics() {
 		$totals      = [];
 		$departments = Department::whereIsCollege(false)->get();
@@ -307,6 +322,6 @@ class ScoreController extends Controller {
 			}
 		}
 
-		return view('score.department', compact('department', 'items', 'total'));
+		return view('score.department', compact('id', 'department', 'items', 'total'));
 	}
 }

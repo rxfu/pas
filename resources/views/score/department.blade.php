@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.app')
 
 @section('title', $department . '绩效考核评分结果')
 
@@ -27,7 +27,7 @@
                                         @if ($loop->first)
                                             <td rowspan="{{ count($item['subindices']) }}" class="align-middle">{{ $item['seq'] }}、{{ $item['name'] }}（{{ $item['score'] }}分）</td>
                                         @endif
-                                        <td class="align-middle">{{ $subindex['seq'] }}、{{ $subindex['name'] }}（{{ $subindex['score'] }}分）</td>
+                                        <td class="align-middle">{{ $subindex['seq'] }}、<a href="{{ route('score.detail', [$id, $key, $subkey]) }}" title="评分细目">{{ $subindex['name'] }}</a>（{{ $subindex['score'] }}分）</td>
                                         <td>{!! nl2br($subindex['description']) !!}</td>
                                         @if ('工作效能' == $item['name'])
                                             @if ($loop->first)
@@ -40,7 +40,7 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="2" class="align-middle">{{ $item['seq'] }}、{{ $item['name'] }}（{{ $item['score'] }}分）</td>
+                                    <td colspan="2" class="align-middle">{{ $item['seq'] }}、<a href="{{ route('score.detail', [$id, $key, 0]) }}" title="评分细目">{{ $item['name'] }}</a>（{{ $item['score'] }}分）</td>
                                     <td>{!! nl2br($item['description']) !!}</td>
                                     <td>{{ number_format($item['value'], 2) }}</td>
                                 </tr>
