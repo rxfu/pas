@@ -10,8 +10,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <caption>{{ $department }}绩效考核评分结果</caption>
+                <table class="table table-bordered" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th class="text-nowrap">一级指标</th>
@@ -28,20 +27,32 @@
                                         @if ($loop->first)
                                             <td rowspan="{{ count($item['subindices']) }}" class="align-middle">{{ $item['seq'] }}、{{ $item['name'] }}（{{ $item['score'] }}分）</td>
                                         @endif
-                                        <td>{{ $subindex['seq'] }}、{{ $subindex['name'] }}（{{ $subindex['score'] }}分）</td>
+                                        <td class="align-middle">{{ $subindex['seq'] }}、{{ $subindex['name'] }}（{{ $subindex['score'] }}分）</td>
                                         <td>{!! nl2br($subindex['description']) !!}</td>
-                                        <td><a href="{{ route('score.mark', [$key, $subkey]) }}">评分</a></td>
+                                        @if ('工作效能' == $item['name'])
+                                            @if ($loop->first)
+                                                <td rowspan="{{ count($item['subindices']) }}" class="align-middle">{{ number_format($subindex['value'], 2) }}</td>
+                                            @endif
+                                        @else
+                                            <td class="align-middle">{{ number_format($subindex['value'], 2) }}</td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             @else
                                 <tr>
                                     <td colspan="2" class="align-middle">{{ $item['seq'] }}、{{ $item['name'] }}（{{ $item['score'] }}分）</td>
                                     <td>{!! nl2br($item['description']) !!}</td>
-                                    <td><a href="{{ route('score.mark', [$key, 0]) }}">评分</a></td>
+                                    <td>{{ number_format($item['value'], 2) }}</td>
                                 </tr>
                             @endif
                         @endforeach
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-justify">合计</td>
+                            <td>{{ number_format($total, 2) }}</td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>

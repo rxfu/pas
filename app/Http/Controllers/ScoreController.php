@@ -205,7 +205,7 @@ class ScoreController extends Controller {
 			}
 		}
 
-		usort($totals, function ($a, $b) {
+		uasort($totals, function ($a, $b) {
 			return ($a['total'] > $b['total']) ? -1 : 1;
 		});
 
@@ -217,11 +217,16 @@ class ScoreController extends Controller {
 		$indices    = Index::with('subindices')->orderBy('order')->get();
 
 		$items = [];
+		$total = 0;
 		foreach ($indices as $index) {
+			$val = 0;
+
 			if ($index->subindices->count()) {
 				$subindices = [];
 
-				foreach ($index->subindices as $subindex) {
+				foreach ($index->subindices as $key => $subindex) {
+					$val = 0;
+
 					$scores = Score::whereDepartmentId($id)
 						->whereIndexId($index->id)
 						->whereSubindexId($subindex->id)
@@ -245,6 +250,12 @@ class ScoreController extends Controller {
 							} else {
 								$val = $scores->avg('score');
 							}
+						}
+
+						if ('工作效能' == $index->name && (0 != $key)) {
+							$total += 0;
+						} else {
+							$total += $val;
 						}
 					}
 
@@ -282,6 +293,8 @@ class ScoreController extends Controller {
 							$val = $scores->avg('score');
 						}
 					}
+
+					$total += $val;
 				}
 
 				$items[$index->id] = [
@@ -294,6 +307,6 @@ class ScoreController extends Controller {
 			}
 		}
 
-		return view('score.department', compact('department', 'items'));
+		return view('score.department', compact('department', 'items', 'total'));
 	}
 }

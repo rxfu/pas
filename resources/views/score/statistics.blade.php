@@ -18,9 +18,11 @@
 				</thead>
 
 				<tbody>
-					@foreach ($totals as $total)
+					@foreach ($totals as $id => $total)
 						<tr>
-							<td>{{ $total['name'] }}</td>
+							<td>
+								<a href="{{ route('score.department', $id) }}" title="考核评分结果">{{ $total['name'] }}</a>
+							</td>
 							<td>{{ number_format($total['total'], 2) }}</td>
 							<td>{{ $loop->iteration }}</td>
 						</tr>
