@@ -46,7 +46,9 @@ class ScoreController extends Controller {
 				}
 			} else {
 				if (in_array(session('department'), explode(',', $index->departments))) {
-					if (($index->id == 8) && (!session('is_manager'))) {
+					$isCollege = Department::find(session('department'))->is_college;
+
+					if (($index->id == 8) && $isCollege && (!session('is_manager'))) {
 						continue;
 					}
 
