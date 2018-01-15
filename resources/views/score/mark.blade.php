@@ -39,10 +39,10 @@
                                         <td><em>{{ $loop->iteration }}</em></td>
                                         <th>{{ $department->name }}</th>
                                         <td>
-                                            @if (empty($scores))
-                                                <input type="text" name="score_{{ $department->id }}" class="form-control" required>
-                                            @else
+                                            @if (isset($scores[$department->id]))
                                                 {{ $scores[$department->id] }}
+                                            @else
+                                                <input type="text" name="score_{{ $department->id }}" class="form-control" required>
                                             @endif
                                         </td>
                                     </tr>
