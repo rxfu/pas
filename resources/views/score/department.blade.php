@@ -17,6 +17,7 @@
                             <th class="text-nowrap">二级指标</th>
                             <th class="text-nowrap">观测点</th>
                             <th class="text-nowrap">评分</th>
+                            <th class="text-nowrap">小计</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,9 +33,13 @@
                                         @if ('工作效能' == $item['name'])
                                             @if ($loop->first)
                                                 <td rowspan="{{ count($item['subindices']) }}" class="align-middle">{{ number_format($subindex['value'], 2) }}</td>
+                                                <td rowspan="{{ count($item['subindices']) }}" class="align-middle">{{ number_format($subindex['value'], 2) }}</td>
                                             @endif
                                         @else
                                             <td class="align-middle">{{ number_format($subindex['value'], 2) }}</td>
+                                            @if ($loop->first)
+                                                <td rowspan="{{ count($item['subindices']) }}" class="align-middle">{{ number_format(array_sum(array_column($item['subindices'], 'value')), 2) }}</td>
+                                            @endif
                                         @endif
                                     </tr>
                                 @endforeach
@@ -42,7 +47,8 @@
                                 <tr>
                                     <td colspan="2" class="align-middle">{{ $item['seq'] }}、<a href="{{ route('score.detail', [$id, $key, 0]) }}" title="评分细目">{{ $item['name'] }}</a>（{{ $item['score'] }}分）</td>
                                     <td>{!! nl2br($item['description']) !!}</td>
-                                    <td>{{ number_format($item['value'], 2) }}</td>
+                                    <td class="align-middle">{{ number_format($item['value'], 2) }}</td>
+                                    <td class="align-middle">{{ number_format($item['value'], 2) }}</td>
                                 </tr>
                             @endif
                         @endforeach
@@ -50,7 +56,7 @@
                     <tfoot>
                         <tr>
                             <td colspan="3" class="text-justify">合计</td>
-                            <td>{{ number_format($total, 2) }}</td>
+                            <td colspan="2" class="text-center">{{ number_format($total, 2) }}</td>
                         </tr>
                     </tfoot>
                 </table>
